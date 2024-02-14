@@ -12,12 +12,16 @@
         <p id="sample"><span class="selected">C</span>razy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.</p>
         <div class="stats">
             <p>Percentage: <span id="percentage">0%</span></p>
+            <p>WPM: <span id="wpm">0</span></p>
         </div>
     </div>
     
     <input id="input" type="text">
     <script>
 
+        let start_time = 0;
+        let end_time = 0;
+    
         let sample_text = document.getElementById("sample");
         let input_text = document.getElementById("input");
 
@@ -25,6 +29,13 @@
             if (event != -1) {
                 input_text.value += event.key; 
             }
+
+            if (input_text.value.length == 1) {
+                start_time = new Date().getTime();
+            }
+            
+
+            
             
             let index = 0;
             let error_zone = input_text.value.length;
@@ -48,6 +59,19 @@
             if (index == sample_text.innerText.length) {
                 sample_text.innerHTML = '<span class="selected">C</span>razy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.';
                 input_text.value = ""
+                index = 0;
+
+                end_time = new Date().getTime();
+
+                // Calculate the time taken in seconds
+                var timeInSeconds = (end_time - start_time) / 1000;
+
+                // Calculate WPM (assuming 25 words as per your code)
+                var wordsPerMinute = (25 / timeInSeconds) * 60;
+
+                console.log("Start: " + start_time + " end: " + end_time);
+
+                document.getElementById("wpm").innerText = wordsPerMinute.toFixed(2).toString();
 
             } else if (index == error_zone) {
                 sample_text.innerHTML = '<span class="blue">' + 
@@ -65,7 +89,7 @@
                                     sample_text.innerText.substring(error_zone, sample_text.innerText.length);
             }
 
-            let result = index / sample_text.innerText.length;
+            let result = (index / sample_text.innerText.length)*100;
 
             // Round the result to two decimal places
             let roundedResult = result.toFixed(2);
