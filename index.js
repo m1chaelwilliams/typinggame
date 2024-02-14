@@ -1,6 +1,6 @@
 let copypastas = [
+	"Crazy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.",
 	"I'm Rick Harrison, and this is my pawn shop. I work here with my old man and my son, Big Hoss. Everything in here has a story and a price. One thing I've learned after 69 years - you never know what is gonna come through that door.",
-	"Crazy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy."
 ]
 
 function Task(text, numWords, activeWordCount, activeIndex, hasError, accuracy) {
@@ -23,11 +23,35 @@ function createTask(str) {
 	return new Task(str, numWordsInString(str), 0, 0, false, 100);
 }
 
+function getNewTaskStr() {
+	if (randomize) {
+		let result = "";
+
+		for (let i = 0; i < 25; i++) {
+			let outer_index = Math.floor(Math.random() * copypastas.length);
+
+			let inner_index = Math.floor(Math.random() * numWordsInString(copypastas[outer_index]));
+
+			result += copypastas[outer_index].replace(/[.,!_\-\+=$?\[\]()]/g, '').toLowerCase().split(' ')[inner_index] + " ";
+		}
+
+		return result.slice(0, -1); // remove extra ' ' at end
+	} else {
+		let index = Math.floor(Math.random() * copypastas.length);
+		while (index === currentTaskID) {
+			index = Math.floor(Math.random() * copypastas.length);
+		}
+		currentTaskID = index;
+
+		return copypastas[index];
+	}
+}
+
 function resetTaskState() {
 	sample_text.className = "";
 	// reset task
 
-	currentTask = createTask(copypastas[Math.floor(Math.random() * copypastas.length)]);
+	currentTask = createTask(getNewTaskStr());
 
 	// reset elements
 	sample_text.innerHTML = strToHTML(currentTask.text, 0, 0);
@@ -53,8 +77,17 @@ let wpm_text = document.getElementById("wpm");
 let num_words_text = document.getElementById("numwords");
 let percentage_text = document.getElementById("percentage");
 let accuracy_text = document.getElementById("accuracy");
+// btns
 let export_btn = document.getElementById("export");
 let reset_btn = document.getElementById("reset");
+let new_btn = document.getElementById("new");
+let randomize_btn = document.getElementById("randomize");
+let load_btn = document.getElementById("load");
+let file_input = document.getElementById("file");
+
+// state vars
+let randomize = false;
+let currentTaskID = 0;
 
 function strToHTML(str, correct_end, error_end) {
 	let result = '<span class="blue">' +
@@ -79,7 +112,6 @@ function updateSampleHighlight(event) {
 		let currentCharText = currentTask.text[currentTask.activeIndex];
 		let input = event.key;
 
-		// console.log("Comparing: " + currentCharText + " to input: " + input);
 		if (currentCharText === input) {
 			currentTask.hasError = false;
 			currentTask.activeIndex++;
@@ -106,7 +138,7 @@ function updateSampleHighlight(event) {
 
 	if (currentTask.activeIndex == currentTask.text.length) {
 		
-		sample_text.innerHTML = default_content;
+		sample_text.innerHTML = currentTask.text;
 		sample_text.classList.add("green");
 		currentTask.finished = true;
 		currentTask.activeWordCount++;
@@ -160,11 +192,6 @@ document.addEventListener("keydown", (event) => {
 			currentTask.hasError = false;
 			// remove last char in input field
 			input_text.value = input_text.value.slice(0, -1);
-
-			// decrement word count
-			if (currentTask.text[currentTask.activeIndex] === ' ') {
-				currentTask.activeWordCount--;
-			}
 		}
 		
 		updateSampleHighlight(-1);
@@ -179,7 +206,7 @@ reset_btn.addEventListener("click", () => {
 
 export_btn.addEventListener("click", () => {
 	if (currentTask.finished) {
-		let textContent = `WPM: ${wpm_text.innerText}\nAccuracy: ${accuracy_text.innerText}`;
+		let textContent = `Prompt: ${currentTask.text}\n\nWPM: ${wpm_text.innerText}\nAccuracy: ${accuracy_text.innerText}`;
 
 		let blob = new Blob([textContent], {type: 'text/plain'});
 
@@ -196,3 +223,63 @@ export_btn.addEventListener("click", () => {
 		a.click();
 	}
 });
+
+randomize_btn.addEventListener("click", () => {
+	randomize_btn.blur()
+
+	randomize = !randomize;
+	if (randomize) {
+		randomize_btn.classList.add("button-active");
+	} else {
+		randomize_btn.className = "";
+	}
+	resetTaskState();
+})
+
+load_btn.addEventListener("click", () => {
+	load_btn.blur();
+	file_input.click();
+});
+
+file_input.addEventListener("change", (event) => {
+	file_input.blur();
+	let selectedFiles = event.target.files;
+	
+	if (selectedFiles && selectedFiles.length > 0) {
+
+		let selectedFile = selectedFiles[0];
+
+		if (selectedFile.type === 'text/plain') {
+			// FileReader to read the file content
+			let reader = new FileReader();
+
+			reader.onload = function(e) {
+			  	let fileContent = e.target.result;
+			  	
+				copypastas = fileContent.split('\n');
+
+				copypastas = copypastas.map((line) => {
+					return line.replace(/\r?\n|\r/g, '');
+				});
+				copypastas = copypastas.filter((line) => {
+					return line.trim() !== '';
+				});
+
+			  	resetTaskState();
+			};
+
+			reader.readAsText(selectedFile);
+		} else {
+			console.log('Please select a .txt file.');
+		}
+		// Here you can perform further operations with the selected file
+	} else {
+		console.log('No file selected.');
+	}
+});
+
+new_btn.addEventListener("click", () => {
+	new_btn.blur();
+
+	resetTaskState();
+})

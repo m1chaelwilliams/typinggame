@@ -88,3 +88,16 @@ main {
     background-color: black;
     display: flex;
 }
+
+.button-active {
+    background-color: rgb(53, 53, 53);
+}
+
+@media only screen and (max-width: 700px) {
+    .main-content {
+        flex-direction: column;
+    }
+    .stats {
+        align-self: center;
+    }
+}
