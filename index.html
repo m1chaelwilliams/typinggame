@@ -7,106 +7,29 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Typing Game</h1>
-    <div class="container">
-        <p id="sample"><span class="selected">C</span>razy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.</p>
-        <div class="stats">
-            <p>Percentage: <span id="percentage">0%</span></p>
-            <p>WPM: <span id="wpm">0</span></p>
+    <h1 id="header">Typing Game</h1>
+    <main>
+        <div class="main-content">
+            <div class="container">
+                <p id="sample"><span class="selected">C</span>razy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.</p>
+                
+                <div class="config">
+                    <button id="reset">Reset</button>
+                    <button id="export">Export</button>
+                </div>
+            </div>
+        
+            <div class="stats">
+                <p>Percentage: <span id="percentage">0.00%</span></p>
+                <p>WPM: <span id="wpm">0</span></p>
+                <p>Words Completed: <span id="numwords">0</span></p>
+                <p>Accuracy: <span id="accuracy">0.00%</span></p>  
+            </div>
         </div>
-    </div>
+    </main>
     
     <input id="input" type="text">
-    <script>
 
-        let start_time = 0;
-        let end_time = 0;
-    
-        let sample_text = document.getElementById("sample");
-        let input_text = document.getElementById("input");
-
-        function updateSampleHighlight(event) {
-            if (event != -1) {
-                input_text.value += event.key; 
-            }
-
-            if (input_text.value.length == 1) {
-                start_time = new Date().getTime();
-            }
-            
-
-            
-            
-            let index = 0;
-            let error_zone = input_text.value.length;
-
-            if (input_text.value.length > 0) {
-                
-                let value = input_text.value.substring(0, index);
-                while (index <= input_text.value.length && sample_text.innerText.includes(value)) {
-                    index++;
-                    value = input_text.value.substring(0, index);
-                }
-                index--;
-                
-            }
-
-            if (error_zone - index > 1) {
-                input_text.value = input_text.value.substring(0, input_text.value.length-1);
-                error_zone = index + 1;
-            }
-            
-            if (index == sample_text.innerText.length) {
-                sample_text.innerHTML = '<span class="selected">C</span>razy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.';
-                input_text.value = ""
-                index = 0;
-
-                end_time = new Date().getTime();
-
-                // Calculate the time taken in seconds
-                var timeInSeconds = (end_time - start_time) / 1000;
-
-                // Calculate WPM (assuming 25 words as per your code)
-                var wordsPerMinute = (25 / timeInSeconds) * 60;
-
-                console.log("Start: " + start_time + " end: " + end_time);
-
-                document.getElementById("wpm").innerText = wordsPerMinute.toFixed(2).toString();
-
-            } else if (index == error_zone) {
-                sample_text.innerHTML = '<span class="blue">' + 
-                                    sample_text.innerText.substring(0, index) + 
-                                    '</span><span class="selected">' +
-                                    sample_text.innerText.substring(index, index+1) + 
-                                    '</span>' + 
-                                    sample_text.innerText.substring(index+1, sample_text.innerText.length);
-            } else {
-                sample_text.innerHTML = '<span class="blue">' + 
-                                    sample_text.innerText.substring(0, index) + 
-                                    '</span><span class="red">' + 
-                                    sample_text.innerText.substring(index, error_zone) +
-                                    '</span>' + 
-                                    sample_text.innerText.substring(error_zone, sample_text.innerText.length);
-            }
-
-            let result = (index / sample_text.innerText.length)*100;
-
-            // Round the result to two decimal places
-            let roundedResult = result.toFixed(2);
-
-            // Convert the rounded result to a string
-            let roundedResultString = roundedResult.toString();
-
-            document.getElementById("percentage").innerText = roundedResultString + "%";
-        }
-
-        document.addEventListener("keypress", updateSampleHighlight);
-        document.addEventListener("keydown", (event) => {
-            if (event.key == 'Backspace') {
-                input_text.value = input_text.value.slice(0, -1);
-                updateSampleHighlight(-1);
-            }
-        })
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>

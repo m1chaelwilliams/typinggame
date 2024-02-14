@@ -1,7 +1,7 @@
 body {
     font-size: 2rem;
     
-    background-color: rgb(35, 39, 39);
+    background-color: rgb(24, 24, 24);
     color: white;
 
     
@@ -22,29 +22,69 @@ body {
     background-color: rgb(237, 66, 66);
 }
 
+.green {
+    color: rgb(129, 245, 80);
+    font-weight: 800;
+}
+
 .selected {
     background-color: black;
 }
 
 .container {
+    align-self: flex-start;
     display: flex;
     flex-direction: column;
     background-color: rgb(53, 53, 53);
-    display: flex;
-    margin-inline: 2rem;
+    padding: 0;
 }
 
 .stats {
     font-size: 1.5rem;
     background-color: black;
-    padding-inline: 0.5rem;
+    padding-inline: 2rem;
+    align-self: flex-start;
 }
 
 #sample {
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 #input {
     display: none;
+}
+
+#header {
+    text-align: center;
+}
+
+button {
+    font-size: 1.5rem;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 1rem;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: rgb(53, 53, 53);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    margin-inline: 2rem;
+}
+
+.main-content {
+    display: flex;
+    gap: 2rem;
+    max-width: 60rem;
+}
+
+.config {
+    background-color: black;
+    display: flex;
 }
