@@ -1,0 +1,50 @@
+body {
+    font-size: 2rem;
+    
+    background-color: rgb(35, 39, 39);
+    color: white;
+
+    
+}
+
+* {
+    font-family: monospace;
+}
+
+.blue {
+    color: rgb(105, 105, 255);
+    font-weight: 400;
+}
+
+.red {
+    color: white;
+    font-weight: 800;
+    background-color: rgb(237, 66, 66);
+}
+
+.selected {
+    background-color: black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(53, 53, 53);
+    display: flex;
+    margin-inline: 2rem;
+}
+
+.stats {
+    font-size: 1.5rem;
+    background-color: black;
+    padding-inline: 0.5rem;
+}
+
+#sample {
+    text-align: center;
+    padding: 2rem;
+}
+
+#input {
+    display: none;
+}
