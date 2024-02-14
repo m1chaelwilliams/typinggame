@@ -1,3 +1,8 @@
+let copypastas = [
+	"I'm Rick Harrison, and this is my pawn shop. I work here with my old man and my son, Big Hoss. Everything in here has a story and a price. One thing I've learned after 69 years - you never know what is gonna come through that door.",
+	"Crazy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy."
+]
+
 function Task(text, numWords, activeWordCount, activeIndex, hasError, accuracy) {
 	this.text = text;
 	this.numWords = numWords;
@@ -21,14 +26,11 @@ function createTask(str) {
 function resetTaskState() {
 	sample_text.className = "";
 	// reset task
-	currentTask.activeIndex = 0;
-	currentTask.activeWordCount = 0;
-	currentTask.hasError = false;
-	currentTask.finished = false;
-	// currentTask = createTask(generate({exactly: 24, join: ' '}));
+
+	currentTask = createTask(copypastas[Math.floor(Math.random() * copypastas.length)]);
 
 	// reset elements
-	sample_text.innerHTML = strToHTML(default_content, 0, 0);
+	sample_text.innerHTML = strToHTML(currentTask.text, 0, 0);
 	input_text.value = ""
 
 	percentage_text.innerText = "0%";
@@ -72,7 +74,6 @@ function strToHTML(str, correct_end, error_end) {
 
 function updateSampleHighlight(event) {
 	if (event != -1 && !currentTask.hasError) {
-		console.log("valid input");
 		input_text.value += event.key;
 	
 		let currentCharText = currentTask.text[currentTask.activeIndex];
