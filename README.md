@@ -1,6 +1,6 @@
 # Sphere's Typing Game
 
-### ![Link](https://minimaltypingtest.netlify.app)
+### [Link](https://minimaltypingtest.netlify.app)
 ___
 
 ## Features:
@@ -13,7 +13,7 @@ ___
 ___
 
 ## How to use
- - Go to the ![website](https://minimaltypingtest.netlify.app)
+ - Go to the [website](https://minimaltypingtest.netlify.app)
  - Click where it says `click here!`.
  - Start typing!
  - Click `New` to get a new prompt, or press the `r` key when finished.
