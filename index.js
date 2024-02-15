@@ -284,6 +284,7 @@ file_input.addEventListener("change", (event) => {
 
 new_btn.addEventListener("click", () => {
 	new_btn.blur();
+	input_text.focus();
 
 	resetTaskState();
 })
