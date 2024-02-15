@@ -101,3 +101,34 @@ main {
         align-self: center;
     }
 }
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+/* about sections specific */
+
+.about-container {
+    margin: 1rem;
+}
+
+.about-internal {
+    background-color: black;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    padding-block: 0.25rem;
+}
+
+.link {
+    color: gray;
+    /* text-decoration: underline; */
+}
+
+.link:hover {
+    color: white;
+    text-decoration: underline;
+}
