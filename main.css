@@ -132,6 +132,23 @@ main {
     }
 }
 
+@media only screen and (max-width: 400px) {
+    .main-content {
+        flex-direction: column;
+    }
+    #sample {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    .stats {
+        align-self: center;
+        font-size: 1rem;
+    }
+    button {
+        font-size: 1rem;
+    }
+}
+
 a {
     text-decoration: none;
     color: white;

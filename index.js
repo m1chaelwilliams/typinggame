@@ -56,7 +56,11 @@ function getNewTaskStr() {
 }
 
 function resetTaskState() {
-	sample_text.className = "";
+	if (sample_text.classList.contains("green")) {
+		sample_text.classList.remove("green");
+	}
+	
+	visible_input.value = "";
 	// reset task
 
 	currentTask = createTask(getNewTaskStr());
@@ -190,7 +194,7 @@ function updateSampleHighlight(event) {
 }
 
 visible_input.addEventListener("keypress", (event) => {
-	visible_input.value = "";
+	visible_input.value = ">";
 	
 	console.log(event.key);
 	
@@ -199,15 +203,16 @@ visible_input.addEventListener("keypress", (event) => {
 	} else {
 		if (event.key === 'r') {
 			resetTaskState();
+			event.preventDefault();
+			visible_input.value = ">";
 		}
 	}
 });
 visible_input.addEventListener("keydown", (event) => {
 	
-
 	if (event.key == 'Backspace') {
-		visible_input.value += visible_input.value;
-		
+		visible_input.value += visible_input.value.charAt(visible_input.value.length-1);
+
 		if (currentTask.hasError) {
 			// reset error state
 			currentTask.hasError = false;
@@ -218,6 +223,20 @@ visible_input.addEventListener("keydown", (event) => {
 		updateSampleHighlight(-1);
 	}
 })
+
+visible_input.addEventListener("focus", () => {
+	if (!visible_input.value) {
+		visible_input.value = ">";
+	}
+	sample_text.classList.remove("gray");
+});
+
+visible_input.addEventListener("focusout", () => {
+	visible_input.value = "";
+	if (!sample_text.classList.contains("green")) {
+		sample_text.classList.add("gray");
+	}
+});
 
 export_btn.addEventListener("click", () => {
 	if (currentTask.finished) {
