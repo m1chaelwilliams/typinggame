@@ -185,6 +185,8 @@ a {
     display: flex;
 }
 input {
+    border-radius: 0;
+    text-decoration: none;
     width: 100%;
     caret-color: black;
 }
