@@ -97,8 +97,15 @@ main {
     .main-content {
         flex-direction: column;
     }
+    #sample {
+        font-size: 1.25rem;
+    }
     .stats {
         align-self: center;
+        font-size: 1.25rem;
+    }
+    button {
+        font-size: 1.25rem;
     }
 }
 

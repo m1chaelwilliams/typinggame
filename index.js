@@ -32,7 +32,15 @@ function getNewTaskStr() {
 
 			let inner_index = Math.floor(Math.random() * numWordsInString(copypastas[outer_index]));
 
-			result += copypastas[outer_index].replace(/[.,!_\-\+=$?\[\]()]/g, '').toLowerCase().split(' ')[inner_index] + " ";
+			var sanitizedString = copypastas[outer_index].replace(/[.,!_\-\+=$?\[\]()]/g, '').toLowerCase();
+
+			// Split the string by one or more spaces and filter out empty strings
+			var wordsArray = sanitizedString.split(/\s+/).filter(word => word !== '');
+
+			// Return the randomly chosen word
+			result += wordsArray[inner_index] + " ";
+
+			// result += copypastas[outer_index].replace(/[.,!_\-\+=$?\[\]()]/g, '').toLowerCase().split(' ')[inner_index] + " ";
 		}
 
 		return result.slice(0, -1); // remove extra ' ' at end
@@ -81,7 +89,6 @@ let percentage_text = document.getElementById("percentage");
 let accuracy_text = document.getElementById("accuracy");
 // btns
 let export_btn = document.getElementById("export");
-let reset_btn = document.getElementById("reset");
 let new_btn = document.getElementById("new");
 let randomize_btn = document.getElementById("randomize");
 let load_btn = document.getElementById("load");
@@ -108,7 +115,7 @@ function strToHTML(str, correct_end, error_end) {
 
 
 function updateSampleHighlight(event) {
-	if (event != -1 && !currentTask.hasError) {
+	if (event != -1 && !currentTask.hasError && event.key !== 'Enter') {
 		input_text.value += event.key;
 	
 		let currentCharText = currentTask.text[currentTask.activeIndex];
@@ -131,6 +138,7 @@ function updateSampleHighlight(event) {
 			// add incorrect char
 			currentTask.incorrectChars++;
 		}
+
 	}
 	
 	// get time
@@ -199,12 +207,6 @@ document.addEventListener("keydown", (event) => {
 		updateSampleHighlight(-1);
 	}
 })
-
-reset_btn.addEventListener("click", () => {
-	reset_btn.blur();
-
-	resetTaskState();
-});
 
 export_btn.addEventListener("click", () => {
 	if (currentTask.finished) {
@@ -287,5 +289,9 @@ new_btn.addEventListener("click", () => {
 })
 
 window.onload = () => {
-	input_text.focus();
+	input_text.click();
 }
+
+input_text.addEventListener("click", () => {
+	input_text.focus();
+});
