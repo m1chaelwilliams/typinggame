@@ -203,9 +203,11 @@ visible_input.addEventListener("keypress", (event) => {
 	}
 });
 visible_input.addEventListener("keydown", (event) => {
-	visible_input.value += visible_input.value;
+	
 
 	if (event.key == 'Backspace') {
+		visible_input.value += visible_input.value;
+		
 		if (currentTask.hasError) {
 			// reset error state
 			currentTask.hasError = false;
