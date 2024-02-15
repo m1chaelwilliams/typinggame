@@ -61,6 +61,8 @@ function resetTaskState() {
 	wpm_text.innerText = "0";
 	num_words_text.innerText = "0";
 	accuracy_text.innerText = "0.00%";
+
+	input_text.focus();
 }
 
 let default_content = 'Crazy? I was crazy once. They locked me in a room. A rubber room! A rubber room with rats, and rats make me crazy.';
@@ -283,3 +285,5 @@ new_btn.addEventListener("click", () => {
 
 	resetTaskState();
 })
+
+input_text.focus();
