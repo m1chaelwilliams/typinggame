@@ -286,4 +286,6 @@ new_btn.addEventListener("click", () => {
 	resetTaskState();
 })
 
-input_text.focus();
+window.onload = () => {
+	input_text.focus();
+}
