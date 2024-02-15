@@ -93,10 +93,13 @@ let new_btn = document.getElementById("new");
 let randomize_btn = document.getElementById("randomize");
 let load_btn = document.getElementById("load");
 let file_input = document.getElementById("file");
+let visible_input = document.getElementById("visibleinput");
+let hide_btn = document.getElementById("hideinput");
 
 // state vars
 let randomize = false;
 let currentTaskID = 0;
+let inputhidden = false;
 
 function strToHTML(str, correct_end, error_end) {
 	let result = '<span class="blue">' +
@@ -186,7 +189,11 @@ function updateSampleHighlight(event) {
 	accuracy_text.innerText = accuracy.toFixed(2).toString() + "%";
 }
 
-document.addEventListener("keypress", (event) => {
+visible_input.addEventListener("keypress", (event) => {
+	visible_input.value = "";
+	
+	console.log(event.key);
+	
 	if (!currentTask.finished) {
 		updateSampleHighlight(event);
 	} else {
@@ -195,7 +202,9 @@ document.addEventListener("keypress", (event) => {
 		}
 	}
 });
-document.addEventListener("keydown", (event) => {
+visible_input.addEventListener("keydown", (event) => {
+	visible_input.value += visible_input.value;
+
 	if (event.key == 'Backspace') {
 		if (currentTask.hasError) {
 			// reset error state
@@ -282,6 +291,7 @@ file_input.addEventListener("change", (event) => {
 	}
 });
 
+
 new_btn.addEventListener("click", () => {
 	new_btn.blur();
 	input_text.focus();
@@ -296,3 +306,17 @@ window.onload = () => {
 input_text.addEventListener("click", () => {
 	input_text.focus();
 });
+
+hide_btn.addEventListener("click", () => {
+	inputhidden = !inputhidden;
+
+	if (inputhidden) {
+		hide_btn.classList.add("button-active");
+		visible_input.className = "";
+		visible_input.classList.add("black");
+	} else {
+		hide_btn.className = ""
+		visible_input.className = "";
+		visible_input.classList.add("gray");
+	}
+})

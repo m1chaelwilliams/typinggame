@@ -22,9 +22,17 @@ body {
     background-color: rgb(237, 66, 66);
 }
 
+.black {
+    color: black;
+}
+
 .green {
     color: rgb(129, 245, 80);
     font-weight: 800;
+}
+
+.gray {
+    color: gray;
 }
 
 .selected {
@@ -53,6 +61,21 @@ body {
 
 #input {
     display: none;
+}
+
+#visibleinput {
+    text-decoration: none;
+    border: none;
+    background-color: black;
+    
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+#visibleinput:focus {
+    border: none;
+    text-decoration: none;
+    outline: none;
 }
 
 #header {
@@ -138,4 +161,13 @@ a {
 .link:hover {
     color: white;
     text-decoration: underline;
+}
+
+.realinput {
+    flex: 1;
+    display: flex;
+}
+input {
+    width: 100%;
+    caret-color: black;
 }
